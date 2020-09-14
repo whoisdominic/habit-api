@@ -51,6 +51,8 @@ mongoose.connection.once("open", () => {
 
 /// Controllers
 const usersController = require("./controllers/usersController.js");
+const messageController = require("./controllers//messageController.js");
+const habitController = require("./controllers/habitController.js");
 
 //////////////////////////
 // Models
@@ -67,6 +69,8 @@ app.use(express.json());
 app.use(express.static("build"));
 
 app.use("/users", usersController);
+app.use("/message", messageController);
+app.use("/habits", habitController);
 ////////////////
 //Authorization Middleware
 ////////////////

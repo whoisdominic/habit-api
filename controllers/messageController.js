@@ -2,8 +2,6 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const accountSid = "ACa50db910409f17bcf3051eb61d08575c";
-const authToken = "cb6ac9535b26939581e53dca7d5231e0";
 const client = require("twilio")(process.env.accountSid, process.env.authToken);
 
 //////////////////////////

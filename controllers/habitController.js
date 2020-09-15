@@ -23,8 +23,19 @@ const authCheck = (req, res, next) => {
   }
 };
 
-// Create New Habit
-router.post("/", authCheck, async (req, res) => {
+// Read All Habits
+router.get("/all", authCheck, async (req, res) => {
+  const userId = req.headers.id;
+  try {
+    const findHabits = await User.findById(userId);
+    res.status(200).json(findHabits.habits);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Create New Habit = Working
+router.post("/new", authCheck, async (req, res) => {
   const userId = req.headers.id;
   try {
     const newHabit = await User.findByIdAndUpdate(userId, {
@@ -32,12 +43,12 @@ router.post("/", authCheck, async (req, res) => {
         habits: {
           $each: [
             {
-              goal: "Lost 5 lbs",
-              daily: true,
-              weekly: false,
-              monthly: false,
+              goal: req.body.goal,
+              daily: req.body.daily,
+              weekly: req.body.weekly,
+              monthly: req.body.monthly,
               progress: 0,
-              buddies: [{ buddyId: String }],
+              buddies: req.body.buddies,
               date: new Date(),
             },
           ],
@@ -58,8 +69,6 @@ router.get("/:habitId", authCheck, async (req, res) => {
     res.status(400).json(error);
   }
 });
-
-// Read All Habits
 
 // Edit Habit New Habit
 router.put("/", authCheck, async (req, res) => {

@@ -41,13 +41,14 @@ router.post("/welcome", authCheck, async (req, res) => {
   }
 });
 
+// TODO
 router.post("/progress/:habitId", authCheck, async (req, res) => {
   const buddieInfo = req.body;
   const userLookup = buddieInfo.userToken;
   console.log(buddieInfo);
   try {
     const request = await client.messages.create({
-      body: `\nHey! Your friend ${buddieInfo.userName} has made some progress on their habit of ${buddieInfo.habitGoal}`,
+      body: `\nHey! Your friend ${buddieInfo.userName} has made some progress on their habit of ${buddieInfo.habitGoal}! \n \n download the Habit Hunter App to join them!`,
       from: "+12057829268",
       to: buddieInfo.buddyPhone,
     });

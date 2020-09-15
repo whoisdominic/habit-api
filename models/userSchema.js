@@ -36,7 +36,7 @@ const accountSchema = new Schema(
         monthly: Boolean,
         progress: Number,
         date: Date,
-        buddies: [{ buddyId: String }],
+        buddies: [{ buddyName: String, buddyPhone: Number }],
       },
     ],
     buddies: [{ name: String, phoneNumber: String }],

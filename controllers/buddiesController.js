@@ -27,7 +27,7 @@ const authCheck = (req, res, next) => {
   }
 };
 
-// add new buddy
+// Create new buddy
 router.post("/add", authCheck, async (req, res) => {
   console.log(req.body);
   try {
@@ -46,6 +46,22 @@ router.post("/add", authCheck, async (req, res) => {
     res.status(200).json(newBud.buddies);
   } catch (error) {
     res.status(400).json({ msg: "Error" });
+  }
+});
+
+// Update Buddy
+router.put("/update/:buddyId", authCheck, async (req, res) => {
+  const userId = req.headers.id;
+  const buddy = { _id: req.params.buddyId };
+  const update = req.body;
+  try {
+    const updateBuddy = await User.update(
+      { "buddies._id": buddy },
+      { $set: { "buddies.$": update } }
+    );
+    res.status(200).json(updateBuddy);
+  } catch (error) {
+    res.status(400).json(error);
   }
 });
 
@@ -73,6 +89,10 @@ router.get("/all", authCheck, async (req, res) => {
   } catch (error) {
     res.status(400).json({ msg: "here" });
   }
+});
+
+router.get("/", authCheck, async (req, res) => {
+  res.send("Welcome Buddies");
 });
 
 module.exports = router;

@@ -23,7 +23,7 @@ const authCheck = (req, res, next) => {
   }
 };
 
-// Read All Habits
+// Read All Habits #Done
 router.get("/all", authCheck, async (req, res) => {
   const userId = req.headers.id;
   try {
@@ -34,7 +34,7 @@ router.get("/all", authCheck, async (req, res) => {
   }
 });
 
-// Create New Habit = Working
+// Create New Habit #Done
 router.post("/new", authCheck, async (req, res) => {
   const userId = req.headers.id;
   try {
@@ -62,28 +62,29 @@ router.post("/new", authCheck, async (req, res) => {
   }
 });
 
-// Read sinlge Habit
-router.get("/:habitId", authCheck, async (req, res) => {
+// Update Habit New Habit #DONE
+router.put("/update/:habitId", authCheck, async (req, res) => {
+  const userId = req.headers.id;
+  const habit = { _id: req.params.habitId };
+  const update = req.body;
   try {
+    const updateHabit = await User.update(
+      { "habits._id": habit },
+      { $set: { "habits.$": update } }
+    );
+    res.status(200).json(updateHabit);
   } catch (error) {
     res.status(400).json(error);
   }
 });
 
-// Edit Habit New Habit
-router.put("/", authCheck, async (req, res) => {
+// Delete Habit #Done
+router.delete("/remove/:habitId", authCheck, async (req, res) => {
   try {
-    // TODO
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-// Delete Habit
-
-router.delete("/:habitId", authCheck, async (req, res) => {
-  try {
-    // TODO
+    const removedHabit = await User.findByIdAndUpdate(req.headers.id, {
+      $pull: { habits: { _id: req.params.habitId } },
+    });
+    res.status(200).json(removedHabit);
   } catch (error) {
     res.status(400).json(error);
   }

@@ -29,7 +29,7 @@ const corsOptions = (req, callback) => {
 
 const db = mongoose.connection;
 const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/habithunterv1";
+  process.env.MONGODB_URI || "mongodb://localhost:27017/habithunterv2";
 
 //...farther down the page
 
